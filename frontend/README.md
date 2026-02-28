@@ -1,8 +1,8 @@
-# Frontend README
+# Frontend
 
-React + Vite + Tailwind CSS v4 + shadcn/ui frontend for the SOA boilerplate.
+React 19.2.0 + Vite 7.3.1 + Tailwind CSS v4 + shadcn/ui frontend for SOA boilerplate.
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
 1. **Install dependencies:**
    ```bash
@@ -14,15 +14,10 @@ React + Vite + Tailwind CSS v4 + shadcn/ui frontend for the SOA boilerplate.
    npm run dev
    ```
 
-3. **Build for production:**
-   ```bash
-   npm run build
-   ```
+3. **Open browser:**
+   Navigate to `http://localhost:5173`
 
-4. **Preview production build:**
-   ```bash
-   npm run preview
-   ```
+---
 
 ## 📁 Project Structure
 
@@ -30,11 +25,11 @@ React + Vite + Tailwind CSS v4 + shadcn/ui frontend for the SOA boilerplate.
 frontend/
 ├── src/
 │   ├── components/
-│   │   ├── ui/              # Shadcn UI components
+│   │   ├── ui/              # shadcn/ui components
 │   │   ├── layout/          # Layout components
-│   │   └── auth/            # Auth-specific components
-│   ├── pages/                 # Route pages
-│   ├── lib/                   # Utilities (API client, cn)
+│   │   └── pages/           # Page components
+│   ├── pages/                  # Route pages
+│   ├── lib/                   # Utilities (API client, cn, utils)
 │   ├── hooks/                 # TanStack Query hooks
 │   ├── types/                 # TypeScript types
 │   ├── styles/                # Global CSS (Tailwind v4)
@@ -42,15 +37,20 @@ frontend/
 │   └── main.tsx              # Entry point
 ├── public/                    # Static assets
 ├── components.json            # shadcn/ui configuration
-├── index.html                 # HTML template
 ├── tailwind.config.ts         # Tailwind v4 config
 ├── vite.config.ts             # Vite configuration
+├── tsconfig.app.json         # TypeScript config (app)
+├── tsconfig.node.json         # TypeScript config (node)
 ├── package.json               # Dependencies
-├── tsconfig.json             # TypeScript config
-└── Dockerfile                 # Docker build file
+├── .env.example               # Environment template
+├── .gitignore                 # Git exclusions
+├── setup.js                   # Automated setup script
+└── README.md                  # This file
 ```
 
-## 📦 Tech Stack (Latest 2026)
+---
+
+## 📦 Tech Stack
 
 | Package | Version | Purpose |
 |---------|----------|----------|
@@ -66,27 +66,54 @@ frontend/
 | Radix UI | Latest | Primitives |
 | Class Variance Authority | 0.8.1 | Variants |
 | Tailwind Merge | 2.6.0 | Utilities |
+| Clsx | 2.1.0 | Conditional Classes |
 | Lucide Icons | 0.468.0 | Icons |
 | Axios | 1.8.4 | HTTP Client |
-| shadcn/ui | Latest | UI Components |
 
-## 🌟 What's New (Tailwind CSS v4)
+---
 
-- **New @tailwindcss/vite plugin** - Official Vite plugin
-- **Updated config format** - `tailwind.config.ts` with new syntax
-- **CSS variables for theming** - Built-in CSS custom properties
-- **New @apply directives** - Support for nested selectors
-- **Enhanced color palette** - HSL-based color system
-- **Improved dark mode** - Better dark mode support
+## 🎨 Tailwind CSS v4
 
-## 🌟 What's New (shadcn/ui Latest)
+### Key Features
 
-- **components.json configuration** - Modern component tracking
-- **CLI improvements** - `npx shadcn@latest add` with better UX
-- **New component architecture** - Using Radix UI primitives
-- **Variants with CVA** - Class Variance Authority for type-safe variants
-- **Improved TypeScript types** - Better type inference
-- **Path aliases** - `@/` for cleaner imports
+- **@tailwindcss/vite plugin** - Official Vite plugin
+- **CSS variables for theming** - HSL-based color system
+- **Native cascade layers** - Better specificity handling
+- **@theme directive** - Define custom properties
+- **Container queries** - Built-in @min-* and @max-* variants
+- **Dark mode ready** - CSS variables support
+
+### Configuration
+
+See `tailwind.config.ts` for full theme configuration.
+
+---
+
+## 🎨 shadcn/ui
+
+### Configuration
+
+See `components.json` for shadcn/ui settings.
+
+### Add Components
+
+```bash
+# Using the shadcn CLI
+npm run shadcn add [component-name]
+
+# Examples:
+npm run shadcn add accordion
+npm run shadcn add dropdown-menu
+npm run shadcn add dialog
+npm run shadcn add table
+npm run shadcn add tabs
+npm run shadcn add form
+```
+
+Available components:
+- accordion, alert, avatar, badge, button, calendar, card, checkbox, collapsible, command, context-menu, dialog, drawer, dropdown-menu, form, hover-card, input, label, menubar, navigation-menu, popover, progress, radio-group, resizable, scroll-area, select, separator, sheet, skeleton, slider, switch, table, tabs, textarea, toast, toggle, tooltip
+
+---
 
 ## 🔌 Features
 
@@ -101,9 +128,11 @@ frontend/
 - **📱 Responsive**: Mobile-friendly design
 - **🌙 Dark Mode Ready**: Theme support with CSS variables
 
+---
+
 ## 📄 Pages
 
-| Route | Path | Description |
+| Page | Path | Description |
 |-------|------|-------------|
 | Sign In | `/sign-in` | Login form |
 | Sign Up | `/sign-up` | Registration form |
@@ -112,34 +141,29 @@ frontend/
 | Orders | `/dashboard/orders` | Order history and tracking |
 | Profile | `/dashboard/profile` | User profile management |
 
-## 🎨 UI Components (shadcn/ui)
+---
 
-Used components:
-- Button - With variants (default, destructive, outline, secondary, ghost, link)
-- Input - With proper styling and focus states
-- Label - Form labels
-- Card - Container components (Header, Content, Footer, Title, Description)
-- Badge - Status indicators
+## 📦 Usage
 
-To add more components:
+### Development
+
 ```bash
-npx shadcn@latest add [component-name]
+npm run dev
 ```
 
-Available components: accordion, alert, avatar, checkbox, collapsible, dialog, dropdown-menu, input, label, select, separator, sheet, skeleton, switch, table, tabs, textarea, toast, tooltip, and many more!
+### Build
 
-## 🌙 Dark Mode
-
-The frontend is dark-mode ready! The CSS variables support:
-- `dark` class on body or HTML element
-- Automatic color switching
-- Preserves system preferences
-
-To enable dark mode:
-```tsx
-// Add dark class
-document.documentElement.classList.add('dark');
+```bash
+npm run build
 ```
+
+### Preview
+
+```bash
+npm run preview
+```
+
+---
 
 ## 🔌 API Integration
 
@@ -151,49 +175,22 @@ The frontend connects to the API Gateway on `http://localhost:3000` by default.
 - Products: `/api/products/*`
 - Orders: `/api/orders/*`
 
-## 🛒 Shopping Cart
+---
 
-- Add items to cart
-- View cart summary
-- Remove items from cart
-- Checkout → Create order via API
-- Cart is cleared after successful checkout
+## 🌙 Dark Mode
 
-## 📦 Order Management
+The frontend is dark-mode ready! The CSS variables support:
+- `dark` class on body or HTML element
+- Automatic color switching
+- Preserves system preferences
 
-- View all orders with pagination
-- Track order status (pending, processing, shipped, delivered)
-- Cancel orders (only pending/processing)
-- View order details with items
-
-## 👤 User Profile
-
-- View personal information
-- Update name and email
-- Change password
-- Sign out
-
-## 🚀 Development
-
-Start the development server:
-```bash
-npm run dev
+To enable dark mode:
+```tsx
+// Add dark class to HTML element
+document.documentElement.classList.add('dark');
 ```
 
-The app will be available at `http://localhost:5173`
-
-## 🐳 Docker
-
-Build and run with Docker:
-```bash
-# Build
-docker build -t soa-frontend .
-
-# Run
-docker run -p 5173:5173 soa-frontend
-```
-
-Or use the main `docker-compose.yml` to run all services.
+---
 
 ## 📝 Notes
 
