@@ -18,6 +18,8 @@ const app = express();
 const logger = createLogger('order-service');
 const PORT = process.env.PORT || 3003;
 
+let server: any;
+
 // ============================================
 // Security Middleware
 // ============================================
@@ -58,7 +60,7 @@ app.use(limiter);
 // ============================================
 
 app.use(morgan('combined', {
-  skip: (req) => req.path === '/health',
+  skip: (req: any) => req.path === '/health',
 }));
 
 // ============================================
@@ -72,13 +74,13 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 // Request ID Middleware
 // ============================================
 
-app.use(requestIdMiddleware());
+app.use(requestIdMiddleware);
 
 // ============================================
 // Health Check
 // ============================================
 
-app.get('/health', (req, res) => {
+app.get('/health', (req: any, res: any) => {
   res.json({
     status: 'healthy',
     service: 'order-service',
@@ -135,7 +137,7 @@ const start = async () => {
     logger.info('Database connected successfully');
 
     const orderController = new OrderController(logger, cache);
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
       logger.info(`Order Service running on port ${PORT}`);
     });
   } catch (error) {
