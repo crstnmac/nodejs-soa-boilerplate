@@ -1,5 +1,8 @@
-import type { Router, type Request, type Response } from 'express';
-import { requireAdmin, asyncHandler, successResponse, createdResponse, validateParams, validateBody, validateQuery, paginationSchema, idSchema, searchSchema } from '@soa/shared-utils';
+import type { Request } from 'express';
+import type { Response } from 'express';
+import { Router } from 'express';
+import { asyncHandler, successResponse, createdResponse, validateParams, validateBody, validateQuery, paginationSchema, idSchema, searchSchema } from '@soa/shared-utils';
+import { requireAdmin } from '../middleware/auth.middleware';
 import { z } from 'zod';
 import { ProductController } from '../controllers/product.controller';
 import type { Logger } from '@soa/shared-utils';
@@ -21,7 +24,7 @@ router.get(
   '/',
   validateQuery(paginationSchema.extend(searchSchema)),
   asyncHandler(async (req: Request, res: Response) => {
-    const result = await productController.getAllProducts(req.query);
+    const result = await productController.getAllProducts(req.query as any);
     return successResponse(result);
   })
 );
@@ -42,7 +45,7 @@ router.get(
   '/:id',
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const product = await productController.getProductById(req.params.id);
+    const product = await productController.getProductById(parseInt(req.params.id as string));
     return successResponse(product);
   })
 );
@@ -78,7 +81,7 @@ router.patch(
     status: z.enum(['active', 'inactive', 'archived']).optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const product = await productController.updateProduct(req.params.id, req.body as UpdateProductDTO);
+    const product = await productController.updateProduct(parseInt(req.params.id as string), req.body as UpdateProductDTO);
     return successResponse(product);
   })
 );
@@ -88,7 +91,7 @@ router.delete(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    await productController.deleteProduct(req.params.id);
+    await productController.deleteProduct(parseInt(req.params.id as string));
     return successResponse({ success: true, message: 'Product deleted successfully' });
   })
 );

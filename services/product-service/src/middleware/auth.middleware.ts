@@ -1,4 +1,4 @@
-import { Router, type Request, type Response } from 'express';
+import { Router, type Request, type Response, type NextFunction } from 'express';
 
 export const requireAuth = async (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization;
@@ -13,7 +13,7 @@ export const requireAuth = async (req: any, res: any, next: any) => {
     const response = await fetch(`${process.env.USER_SERVICE_URL}/api/auth/session`, {
       headers: { Cookie: req.headers.cookie as string },
     });
-    const data = await response.json();
+    const data = await response.json() as { success: boolean; data?: { user: any } };
 
     if (!data.success || !data.data) {
       return res.status(401).json({
@@ -33,7 +33,7 @@ export const requireAuth = async (req: any, res: any, next: any) => {
 };
 
 export const requireAdmin = async (req: any, res: any, next: any) => {
-  await requireAuth(req, res, (err) => {
+  await requireAuth(req, res, (err: any) => {
     if (err) {
       return;
     }

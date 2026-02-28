@@ -11,10 +11,12 @@ import {
 } from '@soa/shared-utils';
 import { getDb } from '@soa/shared-drizzle';
 import { initProductRoutes } from './routes/product.routes';
+import productRoutes from './routes/product.routes';
 
 const app = express();
 const logger = createLogger('product-service');
 const PORT = process.env.PORT || 3002;
+let server: any;
 
 // ============================================
 // Security Middleware
@@ -71,11 +73,14 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 // Request ID Middleware
 // ============================================
 
-app.use(requestIdMiddleware());
+app.use(requestIdMiddleware);
 
 // Connect to Redis (initialized in routes)
 import { getCache } from '@soa/shared-utils';
 const cache = getCache(logger);
+
+// Initialize product routes with logger and cache
+initProductRoutes(logger, cache);
 
 // ============================================
 // Health Check
@@ -97,7 +102,7 @@ app.get('/health', (req, res) => {
 // Product Routes
 // ============================================
 
-app.use('/api/products', initProductRoutes(logger, cache));
+app.use('/api/products', productRoutes);
 
 // ============================================
 // 404 Handler
@@ -120,7 +125,7 @@ const start = async () => {
     await getDb().execute('SELECT 1');
     logger.info('Database connected successfully');
 
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
       logger.info(`Product Service running on port ${PORT}`);
     });
   } catch (error) {

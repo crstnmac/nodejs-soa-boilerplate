@@ -12,9 +12,13 @@
     "@soa/shared-drizzle": "workspace:*",
     "@soa/shared-types": "workspace:*",
     "@soa/shared-utils": "workspace:*",
+    "@types/morgan": "^1.9.10",
+    "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
-    "express-rate-limit": "^7.5.0"
+    "morgan": "^1.10.1",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
