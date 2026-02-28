@@ -50,7 +50,7 @@ export interface Product {
   stock: number;
   categoryId: number | null;
   image: string | null;
-  active: boolean;
+  status: 'active' | 'inactive' | 'archived';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -71,7 +71,7 @@ export interface UpdateProductDTO {
   stock?: number;
   categoryId?: number;
   image?: string;
-  active?: boolean;
+  status?: 'active' | 'inactive' | 'archived';
 }
 
 // ============================================
