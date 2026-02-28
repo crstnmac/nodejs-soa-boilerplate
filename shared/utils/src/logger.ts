@@ -1,5 +1,4 @@
 import winston from 'winston';
-import type { Logger } from './logger';
 
 export enum LogLevel {
   ERROR = 'error',
@@ -27,7 +26,7 @@ export const createLogger = (
     transports: [
       new winston.transports.Console({
         format: winston.format.combine(
-          winston.format.colorize({ all: true, colors: { error: 'red', warn: 'yellow', info: 'green', http: 'cyan', debug: 'gray' }),
+          winston.format.colorize({ all: true }),
           winston.format.printf(
             ({ timestamp, level, message, service, method, url, statusCode, durationMs, ...meta }) => {
               const metaStr = Object.keys(meta).length > 0 ? JSON.stringify(meta, null, 2) : '';
@@ -40,4 +39,5 @@ export const createLogger = (
   });
 };
 
-export type Logger = ReturnType<typeof createLogger>;
+// Export the winston Logger type
+export type Logger = winston.Logger;

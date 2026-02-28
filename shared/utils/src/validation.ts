@@ -9,7 +9,7 @@ export const validate = <T>(
   const result = schema.safeParse(data);
   
   if (!result.success) {
-    const errors = result.error.errors.map((e) => ({
+    const errors = result.error.issues.map((e: any) => ({
       path: e.path.join('.'),
       message: e.message,
       code: e.code,

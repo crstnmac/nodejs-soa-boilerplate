@@ -20,7 +20,6 @@ export class CacheService {
     this.client = new Redis(process.env.REDIS_URL || 'redis://localhost:6379', {
       maxRetriesPerRequest: 3,
       retryStrategy: (times: number) => Math.min(times + 1, 3),
-      retryDelayOnFailover: 100,
       connectTimeout: 10000,
       lazyConnect: true,
       keepAlive: 30000,

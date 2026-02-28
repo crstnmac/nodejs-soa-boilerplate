@@ -1,4 +1,5 @@
-import { ApiResponse, PaginatedResponse, AppError } from '@soa/shared-types';
+import type { ApiResponse, PaginatedResponse } from '@soa/shared-types';
+import { AppError } from '@soa/shared-types';
 
 export const successResponse = <T>(
   data: T,
@@ -20,7 +21,6 @@ export const createdResponse = <T>(
   body: {
     success: true,
     data,
-    message,
     timestamp: new Date().toISOString(),
   },
 });
