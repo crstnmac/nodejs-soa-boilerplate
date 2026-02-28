@@ -143,6 +143,23 @@ services:
       - soa-network
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: soa-frontend
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      VITE_API_URL: http://gateway:3000
+    depends_on:
+      gateway:
+        condition: service_started
+    networks:
+      - soa-network
+    restart: unless-stopped
+
 volumes:
   postgres_data:
     driver: local
