@@ -6,7 +6,7 @@
 [![Better Auth](https://img.shields.io/badge/Better%20Auth-1.4.20-orange.svg)](https://www.better-auth.com/)
 [![Drizzle](https://img.shields.io/badge/Drizzle-0.45.1-blue.svg)](https://orm.drizzle.team/)
 
-A production-ready **Service-Oriented Architecture** boilerplate built with Express.js, featuring modern authentication with Better Auth, type-safe database access with Drizzle ORM, and PostgreSQL.
+A production-ready **Service-Oriented Architecture** boilerplate built with Express.js, featuring modern authentication with Better Auth, type-safe database access with Drizzle ORM, PostgreSQL, and a React + Vite frontend.
 
 ## 🏗️ Architecture
 
@@ -17,6 +17,7 @@ soa-express-better-auth/
 │   ├── product-service/    # Port 3002 - Product Catalog & Inventory
 │   └── order-service/     # Port 3003 - Order Processing
 ├── gateway/               # Port 3000 - API Gateway with Proxy
+├── frontend/              # Port 5173 - React + Vite Frontend
 ├── shared/
 │   ├── types/             # Shared TypeScript Types
 │   ├── utils/             # Shared Utilities (Logger, Cache, Middleware)
@@ -39,6 +40,7 @@ soa-express-better-auth/
 - **✅ Health Checks** - `/health` endpoints on all services
 - **🔒 Rate Limiting** - Per-service rate limits
 - **📝 Zod Validation** - Request/response validation schemas
+- **🎨 Modern Frontend** - React 19 + Vite with TanStack Query, Shadcn UI, Tailwind CSS, Sonner
 
 ## 📦 Tech Stack (Latest as of 2026)
 
@@ -46,7 +48,7 @@ soa-express-better-auth/
 |---------|----------|----------|
 | [Node.js](https://nodejs.org/) | **20.0.0** | Runtime |
 | [TypeScript](https://www.typescriptlang.org/) | **5.8.0** | Type Safety |
-| [Express](https://expressjs.com/) | **5.2.1** | Web Framework |
+| [Express](https://expressjs.com/) | **5.2.1** | Backend Web Framework |
 | [Better Auth](https://www.better-auth.com/) | **1.4.20** | Authentication |
 | [Drizzle ORM](https://orm.drizzle.team/) | **0.45.1** | Database ORM |
 | [Drizzle Kit](https://kit.drizzle.team/) | **0.31.5** | CLI Tool |
@@ -60,6 +62,20 @@ soa-express-better-auth/
 | [Express Rate Limit](https://github.com/nfriedly/express-rate-limit) | **7.5.0** | Rate Limiting |
 | [Nanoid](https://github.com/ai/nanoid) | **5.0.9** | Secure ID Generation |
 | [ioredis](https://github.com/luin/ioredis) | **5.10.0** | Redis Client |
+| [React](https://react.dev/) | **19.2.0** | Frontend Framework |
+| [Vite](https://vitejs.dev/) | **7.3.1** | Frontend Build Tool |
+| [TanStack Query](https://tanstack.com/query) | **5.0.5** | Data Fetching |
+| [TanStack Router](https://tanstack.com/router) | **2.1.7** | Frontend Routing |
+| [Sonner](https://sonner.emilkowalski.com/) | **2.0.5** | Toast Notifications |
+| [Tailwind CSS](https://tailwindcss.com/) | **4.0.11** | Styling |
+| [Lucide Icons](https://lucide.dev/) | **0.468.0** | Icon Library |
+| [PostCSS](https://postcss.org/) | **8.4.49** | CSS Processing |
+| [Autoprefixer](https://github.com/postcss/autoprefixer) | **10.4.21** | CSS Vendor Prefixes |
+| [Class Variance Authority](https://cva.style/) | **0.8.0** | Variant Styling |
+| [Tailwind Merge](https://github.com/dcastilho/tailwind-merge) | **2.6.0** | Tailwind Utilities |
+| [clsx](https://github.com/lukeedwards/clsx) | **2.1.0** | Conditional Classes |
+| [Axios](https://axios-http.com/) | **1.8.4** | HTTP Client |
+| [Shadcn UI](https://ui.shadcn.com/) | Latest | UI Components |
 
 ## 📁 Services Overview
 
@@ -86,6 +102,23 @@ soa-express-better-auth/
   - `/api/users/me` (PATCH) - Update profile
   - `/api/users/me/password` (POST) - Change password
   - `/api/users/me` (DELETE) - Delete account
+
+### Frontend (`:5173`)
+- **React 19.2.0 + Vite 7.3.1** - Modern React framework with fast build tool
+- **TanStack Query 5.0.5** - Powerful data fetching and caching
+- **TanStack Router 2.1.7** - Client-side routing with route protection
+- **Shadcn UI Components** - Beautiful, accessible UI primitives
+- **Tailwind CSS 4.0.11** - Utility-first CSS framework
+- **Sonner 2.0.5** - Beautiful toast notifications
+- **Lucide Icons 0.468.0** - Beautiful icon library
+- **Pages & Features**:
+  - **Auth Pages**: Sign In, Sign Up with form validation
+  - **Products Page**: Browse, search, filter, shopping cart, checkout
+  - **Orders Page**: Order history, status tracking, order details
+  - **Profile Page**: View/update profile, change password
+  - **Responsive Design**: Mobile-first, works on all screen sizes
+  - **Dark Mode Ready**: CSS variables for theme support
+- **API Integration**: Full integration with backend API Gateway
 
 ### Product Service (`:3002`)
 - **Public Routes**
