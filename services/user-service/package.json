@@ -1,0 +1,28 @@
+{
+  "name": "@soa/user-service",
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"No tests yet\""
+  },
+  "dependencies": {
+    "@soa/shared-drizzle": "workspace:*",
+    "@soa/shared-types": "workspace:*",
+    "@soa/shared-utils": "workspace:*",
+    "better-auth": "^1.4.20",
+    "bcrypt": "^5.1.1",
+    "express": "^5.2.1",
+    "helmet": "^8.0.0",
+    "express-rate-limit": "^7.5.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/express": "^5.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.0"
+  }
+}
