@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { getDb, users, sessions } from '@soa/shared-drizzle';

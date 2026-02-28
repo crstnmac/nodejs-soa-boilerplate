@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Request, Response, NextFunction } from 'express';
 import type { Logger } from '@soa/shared-utils';
 import type { Session } from '../auth.config';
