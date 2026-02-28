@@ -7,8 +7,12 @@ import { Toaster } from 'sonner';
 import { MainLayout } from './components/layout/MainLayout';
 import { AuthLayout } from './components/layout/AuthLayout';
 
-// Auth Check Component
-import { useSession } from './hooks';
+// Pages
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Products from './pages/Products';
+import Orders from './pages/Orders';
+import Profile from './pages/Profile';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient({
@@ -37,13 +41,13 @@ const rootRoute = createRootRoute({
 const signInRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/sign-in',
-  component: () => import('./pages/SignIn').then(m => m.default),
+  component: SignIn,
 });
 
 const signUpRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/sign-up',
-  component: () => import('./pages/SignUp').then(m => m.default),
+  component: SignUp,
 });
 
 // Dashboard routes
@@ -51,9 +55,6 @@ const dashboardRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/dashboard',
   component: MainLayout,
-  loader: () => {
-    return null;
-  },
   children: [
     productsRoute,
     ordersRoute,
@@ -64,19 +65,19 @@ const dashboardRoute = createRoute({
 const productsRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/products',
-  component: () => import('./pages/Products').then(m => m.default),
+  component: Products,
 });
 
 const ordersRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/orders',
-  component: () => import('./pages/Orders').then(m => m.default),
+  component: Orders,
 });
 
 const profileRoute = createRoute({
   getParentRoute: () => dashboardRoute,
   path: '/profile',
-  component: () => import('./pages/Profile').then(m => m.default),
+  component: Profile,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -94,6 +95,14 @@ export default function App() {
           richColors
           closeButton
           theme="light"
+          toastOptions={{
+            classNames: {
+              toast: 'group toast group-[.toast]',
+              description: 'text-sm opacity-90',
+              actionButton: 'bg-primary text-primary-foreground',
+              cancelButton: 'bg-muted text-muted-foreground hover:bg-muted/80',
+            },
+          }}
         />
         <Outlet />
       </RouterProvider>

@@ -1,6 +1,6 @@
 # Frontend README
 
-This is the React + Vite frontend for the SOA Express boilerplate.
+React + Vite + Tailwind CSS v4 + shadcn/ui frontend for the SOA boilerplate.
 
 ## 🚀 Getting Started
 
@@ -37,33 +37,56 @@ frontend/
 │   ├── lib/                   # Utilities (API client, cn)
 │   ├── hooks/                 # TanStack Query hooks
 │   ├── types/                 # TypeScript types
-│   ├── styles/                # Global CSS
+│   ├── styles/                # Global CSS (Tailwind v4)
 │   ├── App.tsx               # Main app component
 │   └── main.tsx              # Entry point
 ├── public/                    # Static assets
+├── components.json            # shadcn/ui configuration
 ├── index.html                 # HTML template
+├── tailwind.config.ts         # Tailwind v4 config
 ├── vite.config.ts             # Vite configuration
-├── tailwind.config.js         # Tailwind CSS config
-├── postcss.config.js          # PostCSS config
 ├── package.json               # Dependencies
 ├── tsconfig.json             # TypeScript config
 └── Dockerfile                 # Docker build file
 ```
 
-## 📦 Tech Stack
+## 📦 Tech Stack (Latest 2026)
 
-| Package | Version |
-|---------|----------|
-| React | 19.2.0 |
-| Vite | 7.3.1 |
-| TanStack Query | 5.0.5 |
-| TanStack Router | 2.1.7 |
-| Sonner | 2.0.5 |
-| Tailwind CSS | 4.0.11 |
-| PostCSS | 8.4.49 |
-| Autoprefixer | 10.4.21 |
-| Lucide React | 0.468.0 |
-| Axios | 1.8.4 |
+| Package | Version | Purpose |
+|---------|----------|----------|
+| React | 19.2.0 | Frontend Framework |
+| Vite | 7.3.1 | Build Tool |
+| TanStack Query | 5.0.5 | Data Fetching |
+| TanStack Router | 2.1.7 | Routing |
+| Sonner | 2.0.5 | Toast Notifications |
+| Tailwind CSS | 4.1.1 | Styling |
+| @tailwindcss/vite | 4.1.0 | Tailwind Vite Plugin |
+| PostCSS | 8.4.49 | CSS Processing |
+| Autoprefixer | 10.4.21 | Vendor Prefixes |
+| Radix UI | Latest | Primitives |
+| Class Variance Authority | 0.8.1 | Variants |
+| Tailwind Merge | 2.6.0 | Utilities |
+| Lucide Icons | 0.468.0 | Icons |
+| Axios | 1.8.4 | HTTP Client |
+| shadcn/ui | Latest | UI Components |
+
+## 🌟 What's New (Tailwind CSS v4)
+
+- **New @tailwindcss/vite plugin** - Official Vite plugin
+- **Updated config format** - `tailwind.config.ts` with new syntax
+- **CSS variables for theming** - Built-in CSS custom properties
+- **New @apply directives** - Support for nested selectors
+- **Enhanced color palette** - HSL-based color system
+- **Improved dark mode** - Better dark mode support
+
+## 🌟 What's New (shadcn/ui Latest)
+
+- **components.json configuration** - Modern component tracking
+- **CLI improvements** - `npx shadcn@latest add` with better UX
+- **New component architecture** - Using Radix UI primitives
+- **Variants with CVA** - Class Variance Authority for type-safe variants
+- **Improved TypeScript types** - Better type inference
+- **Path aliases** - `@/` for cleaner imports
 
 ## 🔌 Features
 
@@ -73,10 +96,10 @@ frontend/
 - **👤 Profile**: View and update user profile, change password
 - **🔒 Protected Routes**: Auth-aware routing with TanStack Router
 - **⚡ Data Fetching**: TanStack Query with optimistic updates
-- **🎨 Beautiful UI**: Shadcn UI components with Tailwind CSS
+- **🎨 Beautiful UI**: shadcn/ui components with Tailwind CSS v4
 - **🔔 Toasts**: Sonner for beautiful notifications
 - **📱 Responsive**: Mobile-friendly design
-- **🌙 Dark Mode**: Theme support with CSS variables
+- **🌙 Dark Mode Ready**: Theme support with CSS variables
 
 ## 📄 Pages
 
@@ -89,6 +112,35 @@ frontend/
 | Orders | `/dashboard/orders` | Order history and tracking |
 | Profile | `/dashboard/profile` | User profile management |
 
+## 🎨 UI Components (shadcn/ui)
+
+Used components:
+- Button - With variants (default, destructive, outline, secondary, ghost, link)
+- Input - With proper styling and focus states
+- Label - Form labels
+- Card - Container components (Header, Content, Footer, Title, Description)
+- Badge - Status indicators
+
+To add more components:
+```bash
+npx shadcn@latest add [component-name]
+```
+
+Available components: accordion, alert, avatar, checkbox, collapsible, dialog, dropdown-menu, input, label, select, separator, sheet, skeleton, switch, table, tabs, textarea, toast, tooltip, and many more!
+
+## 🌙 Dark Mode
+
+The frontend is dark-mode ready! The CSS variables support:
+- `dark` class on body or HTML element
+- Automatic color switching
+- Preserves system preferences
+
+To enable dark mode:
+```tsx
+// Add dark class
+document.documentElement.classList.add('dark');
+```
+
 ## 🔌 API Integration
 
 The frontend connects to the API Gateway on `http://localhost:3000` by default.
@@ -98,27 +150,6 @@ The frontend connects to the API Gateway on `http://localhost:3000` by default.
 - Users: `/api/users/*`
 - Products: `/api/products/*`
 - Orders: `/api/orders/*`
-
-## 🎨 Shadcn UI Components
-
-Used Shadcn UI components (built with Tailwind):
-- Button
-- Input
-- Label
-- Card (and sub-components)
-- Badge
-
-To add more components:
-```bash
-npx shadcn@latest add [component-name]
-```
-
-## 🔒 Authentication Flow
-
-1. User signs in → Session stored in cookies
-2. Session is sent with each API request (via `withCredentials: true`)
-3. Backend validates session via User Service
-4. Protected routes redirect to `/sign-in` if no session
 
 ## 🛒 Shopping Cart
 
@@ -167,6 +198,8 @@ Or use the main `docker-compose.yml` to run all services.
 ## 📝 Notes
 
 - All API requests include credentials for cookie-based auth
-- TanStack Query caches data automatically
+- TanStack Query caches data automatically with 5-minute stale time
 - Form submissions use native HTML forms
 - Responsive design works on all screen sizes
+- Using `@/` path alias for cleaner imports
+- Tailwind CSS v4 with @tailwindcss/vite plugin for best performance
