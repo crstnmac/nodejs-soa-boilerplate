@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Router } from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
@@ -8,6 +8,8 @@ import {
   requestIdMiddleware,
   corsMiddleware,
 } from '@soa/shared-utils';
+
+// Import routes
 import routes from './routes';
 
 const app = express();
@@ -64,13 +66,13 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 // Request ID Middleware
 // ============================================
 
-app.use(requestIdMiddleware());
+app.use(requestIdMiddleware);
 
 // ============================================
 // Routes
 // ============================================
 
-app.use(routes);
+app.use('/api', routes);
 
 // ============================================
 // Root Endpoint

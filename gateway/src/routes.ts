@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import { createProxyMiddleware, type Options as ProxyOptions } from 'http-proxy-middleware';
-import type { Logger } from '@soa/shared-utils';
+import { createLogger } from '@soa/shared-utils';
 import type { HealthCheck, ServiceUnavailableError } from '@soa/shared-types';
 
 const logger = createLogger('gateway');
@@ -29,16 +29,15 @@ const ROUTES: Record<string, { target: string; pathRewrite?: Record<string, stri
   },
 };
 
-const router = Router() as Router;
+const router = Router();
 
 // ============================================
 // Proxy Configuration
 // ============================================
 
-const proxyOptions: ProxyOptions = {
+const proxyOptions: any = {
   changeOrigin: true,
-  logLevel: process.env.GATEWAY_LOG_LEVEL === 'debug' ? 'debug' : 'warn',
-  onProxyReq: (proxyReq, req) => {
+  onProxyReq: (proxyReq: any, req: any) => {
     logger.debug('Proxying request', {
       method: req.method,
       path: req.path,
@@ -46,7 +45,7 @@ const proxyOptions: ProxyOptions = {
       requestId: req.id,
     });
   },
-  onError: (err, req, res) => {
+  onError: (err: any, req: any, res: any) => {
     logger.error('Proxy error', {
       path: req.path,
       target: err.message,

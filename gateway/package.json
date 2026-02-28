@@ -8,16 +8,18 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@soa/shared-types": "workspace:*",
-    "@soa/shared-utils": "workspace:*",
+    "@soa/shared-types": "file:../shared/types",
+    "@soa/shared-utils": "file:../shared/utils",
     "express": "^5.2.1",
     "helmet": "^8.0.0",
     "express-rate-limit": "^7.5.0",
-    "http-proxy-middleware": "^3.0.5"
+    "http-proxy-middleware": "^3.0.5",
+    "morgan": "^1.10.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/http-proxy-middleware": "^3.0.2",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.10.7",
     "tsx": "^4.21.0",
     "typescript": "^5.8.0"
   }
