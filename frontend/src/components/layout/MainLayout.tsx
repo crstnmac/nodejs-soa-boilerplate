@@ -1,6 +1,6 @@
 import { Outlet, Link } from '@tanstack/react-router';
-import { Layout, LayoutHeader, LayoutTitle } from './ui/layout';
-import { ShoppingCart, ShoppingBag } from 'lucide-react';
+import { Layout, LayoutHeader, LayoutTitle } from '../ui/layout';
+import { ShoppingCart } from 'lucide-react';
 
 export function MainLayout() {
   return (

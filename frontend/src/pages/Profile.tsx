@@ -5,7 +5,8 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
-import { Loader2, LogOut, Mail, User, Lock } from 'lucide-react';
+import { Badge } from '../components/ui/badge';
+import { Loader2, LogOut, User, Lock } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Profile() {
@@ -42,7 +43,7 @@ export default function Profile() {
   const handleSignOut = () => {
     localStorage.removeItem('session');
     toast.success('Signed out successfully');
-    navigate('/sign-in');
+    navigate({ to: '/sign-in' });
   };
 
   if (isLoading) {

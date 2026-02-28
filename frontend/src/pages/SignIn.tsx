@@ -25,7 +25,7 @@ export default function SignIn() {
 
     try {
       await signIn.mutateAsync(credentials);
-      navigate('/dashboard');
+      navigate({ to: '/products' });
     } catch (error) {
       setIsLoading(false);
     }

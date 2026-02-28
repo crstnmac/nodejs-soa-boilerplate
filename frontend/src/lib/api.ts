@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import type { ApiResponse, PaginatedResponse, Product, Category, Order, CreateOrderDTO, HealthCheck } from '../types';
+import type { ApiResponse, PaginatedResponse, Product, Category, Order, CreateOrderDTO, HealthCheck, User } from '../types';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -15,8 +15,9 @@ const api = axios.create({
 // Request interceptor for error handling
 api.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
-    const message = error.response?.data?.error?.message || error.message || 'An error occurred';
+  (error: AxiosError<any>) => {
+    const data = error.response?.data as any;
+    const message = data?.error?.message || error.message || 'An error occurred';
     throw new Error(message);
   }
 );
@@ -44,11 +45,11 @@ export const authApi = {
 // User Endpoints
 export const userApi = {
   getMe: async () => {
-    const response = await api.get<ApiResponse>('/users/me');
+    const response = await api.get<ApiResponse<User>>('/users/me');
     return response.data;
   },
   updateMe: async (data: { name?: string; email?: string }) => {
-    const response = await api.patch<ApiResponse>('/users/me', data);
+    const response = await api.patch<ApiResponse<User>>('/users/me', data);
     return response.data;
   },
   changePassword: async (data: { oldPassword: string; newPassword: string }) => {

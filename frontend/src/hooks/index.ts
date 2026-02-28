@@ -26,8 +26,6 @@ export function useSignIn() {
 }
 
 export function useSignUp() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (data: SignUpCredentials) => authApi.signUp(data),
     onSuccess: () => {
@@ -64,7 +62,10 @@ export function useSession() {
 export function useMe() {
   return useQuery({
     queryKey: ['user', 'me'],
-    queryFn: () => userApi.getMe(),
+    queryFn: async () => {
+      const response = await userApi.getMe();
+      return response.data;
+    },
     retry: false,
   });
 }
@@ -85,8 +86,6 @@ export function useUpdateProfile() {
 }
 
 export function useChangePassword() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (data: { oldPassword: string; newPassword: string }) =>
       userApi.changePassword(data),

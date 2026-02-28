@@ -26,7 +26,7 @@ export default function SignUp() {
 
     try {
       await signUp.mutateAsync(credentials);
-      navigate('/dashboard');
+      navigate({ to: '/products' });
     } catch (error) {
       setIsLoading(false);
     }

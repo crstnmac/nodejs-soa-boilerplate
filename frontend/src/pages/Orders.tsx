@@ -4,7 +4,7 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { Package, Truck, CheckCircle, XCircle, Clock } from 'lucide-react';
-import type { Order, OrderStatus } from '../types';
+import { OrderStatus } from '../types';
 import { toast } from 'sonner';
 
 export default function Orders() {
@@ -128,7 +128,6 @@ export default function Orders() {
                         {statusInfo.text}
                       </Badge>
                     </div>
-                  </div>
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">

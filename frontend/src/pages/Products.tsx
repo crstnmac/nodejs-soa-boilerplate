@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { Link } from '@tanstack/react-router';
 import { useProducts, useCreateOrder } from '../hooks';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { Cart, Plus, Search } from 'lucide-react';
-import type { Product, OrderStatus } from '../types';
+import { ShoppingCart, Plus, Search } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function Products() {
@@ -48,23 +46,6 @@ export default function Products() {
     }
   };
 
-  const getStatusColor = (status: OrderStatus) => {
-    switch (status) {
-      case OrderStatus.PENDING:
-        return 'bg-yellow-500';
-      case OrderStatus.PROCESSING:
-        return 'bg-blue-500';
-      case OrderStatus.SHIPPED:
-        return 'bg-purple-500';
-      case OrderStatus.DELIVERED:
-        return 'bg-green-500';
-      case OrderStatus.CANCELLED:
-        return 'bg-red-500';
-      default:
-        return 'bg-gray-500';
-    }
-  };
-
   const products = data?.data || [];
   const pagination = data?.pagination;
 
@@ -84,7 +65,7 @@ export default function Products() {
             />
           </div>
           <Button onClick={() => setCart([])} variant="outline" size="sm">
-            <Cart className="mr-2 h-4 w-4" />
+            <ShoppingCart className="mr-2 h-4 w-4" />
             Cart ({cart.length})
           </Button>
         </div>
@@ -95,7 +76,7 @@ export default function Products() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Cart className="h-5 w-5" />
+              <ShoppingCart className="h-5 w-5" />
               Shopping Cart
             </CardTitle>
           </CardHeader>
