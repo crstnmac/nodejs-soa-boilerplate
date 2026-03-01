@@ -90,26 +90,6 @@ soa-express-better-auth/
 
 ---
 
-## 🏗️ Architecture
-
-```
-soa-express-better-auth/
-├── services/
-│   ├── user-service/       # Port 3001 - Authentication & User Management
-│   ├── product-service/    # Port 3002 - Product Catalog & Inventory
-│   └── order-service/     # Port 3003 - Order Processing
-├── gateway/               # Port 3000 - API Gateway with Proxy
-├── frontend/              # Port 5173 - React + Vite Frontend
-├── shared/
-│   ├── types/             # Shared TypeScript Types
-│   ├── utils/             # Shared Utilities (Logger, Cache, Middleware)
-│   └── drizzle/           # Database Schemas (Drizzle ORM)
-├── docker-compose.yml      # Docker Orchestration
-└── README.md
-```
-
----
-
 ## 📦 Services Overview
 
 ### API Gateway (`:3000`)
@@ -459,50 +439,6 @@ cd gateway && npm run dev
 # Terminal 5: Frontend
 cd frontend && npm run dev
 ```
-
----
-
-## 📦 Full Tech Stack
-
-### Backend (SOA Architecture)
-
-| Package | Version | Purpose |
-|---------|----------|----------|
-| [Node.js](https://nodejs.org/) | **20.0.0** | Runtime |
-| [TypeScript](https://www.typescriptlang.org/) | **5.9.3** | Type Safety |
-| [Express](https://expressjs.com/) | **5.2.1** | Backend Web Framework |
-| [Better Auth](https://www.better-auth.com/) | **1.4.20** | Authentication |
-| [Drizzle ORM](https://orm.drizzle.team/) | **0.45.1** | Database ORM |
-| [Drizzle Kit](https://kit.drizzle.team/) | **0.31.5** | CLI Tool |
-| [PostgreSQL](https://www.postgresql.org/) | **17** | Database |
-| [Redis](https://redis.io/) | **8 (IORedis v5)** | Caching |
-| [Bcrypt](https://github.com/kelektiv/node.bcrypt.js) | **5.1.1** | Password Hashing |
-| [Winston](https://github.com/winstonjs/winston) | **3.19.0** | Logging |
-| [Morgan](https://github.com/expressjs/morgan) | **1.10.1** | HTTP Request Logging |
-| [Zod](https://github.com/colinhacks/zod) | **4.3.6** | Validation |
-| [Helmet](https://helmetjs.github.io/) | **8.0.0** | Security Headers |
-| [Express Rate Limit](https://github.com/nfriedly/express-rate-limit) | **7.5.0** | Rate Limiting |
-| [Nanoid](https://github.com/ai/nanoid) | **5.0.9** | Secure ID Generation |
-| [ioredis](https://github.com/luin/ioredis) | **5.10.0** | Redis Client |
-
-### Frontend (React + Vite)
-
-| Package | Version | Purpose |
-|---------|----------|----------|
-| [React](https://react.dev/) | **19.2.0** | Frontend Framework |
-| [Vite](https://vitejs.dev/) | **7.3.1** | Build Tool |
-| [TanStack Query](https://tanstack.com/query) | **5.0.5** | Data Fetching |
-| [TanStack Router](https://tanstack.com/router) | **2.1.7** | Routing |
-| [Sonner](https://sonner.emilkowalski.com/) | **2.0.5** | Toast Notifications |
-| [PostCSS](https://postcss.org/) | **8.5.10** | CSS Processing |
-| [Autoprefixer](https://github.com/postcss/autoprefixer) | **10.5.10** | Vendor Prefixes |
-| [Radix UI](https://www.radix-ui.com/) | Latest | Primitives |
-| [Class Variance Authority](https://cva.style/) | **0.8.1** | Variants |
-| [Clsx](https://github.com/lukeedwards/clsx) | **2.1.0** | Conditional Classes |
-| [Lucide Icons](https://lucide.dev/) | **0.468.0** | Icon Library |
-| [Axios](https://axios-http.com/) | **1.8.4** | HTTP Client |
-
----
 
 ## 📁 Project Files
 
