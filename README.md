@@ -7,7 +7,7 @@
 [![Drizzle](https://img.shields.io/badge/Drizzle-0.45.1-blue.svg)](https://orm.drizzle.team/)
 [![React](https://img.shields.io/badge/React-19.2.0-blue.svg)](https://react.dev/)
 
-A production-ready **Service-Oriented Architecture** boilerplate built with Express.js, featuring modern authentication with Better Auth, type-safe database access with Drizzle ORM, PostgreSQL, Redis, and a modern React 19 + Vite 7 + Tailwind CSS v4 + shadcn/ui frontend.
+A production-ready **Service-Oriented Architecture** boilerplate built with Express.js, featuring modern authentication with Better Auth, type-safe database access with Drizzle ORM, PostgreSQL, Redis, and a modern React 19 + Vite frontend.
 
 ## 🏗️ Architecture
 
@@ -19,7 +19,7 @@ soa-express-better-auth/
 │   ├── order-service/      # Port 3003 - Order Processing
 │   └── admin-service/      # Port 3004 - Admin Dashboard & Management
 ├── gateway/               # Port 3000 - API Gateway with Proxy
-├── frontend/              # Port 5173 - React + Vite + Tailwind CSS v4 + shadcn/ui
+├── frontend/              # Port 5173 - React + Vite Frontend
 ├── shared/
 │   ├── types/             # Shared TypeScript Types
 │   ├── utils/             # Shared Utilities (Logger, Cache, Middleware)
@@ -44,11 +44,6 @@ soa-express-better-auth/
 - **✅ Health Checks** - `/health` endpoints on all services
 - **🔒 Rate Limiting** - Per-service rate limits
 - **📝 Zod Validation** - Request/response validation schemas
-- **🎨 Modern Frontend** - React 19.2.0, Vite 7.3.1, Tailwind CSS v4.1.0
-- **🔒 Dark Mode** - CSS variables for theming
-- **🎯 shadcn/ui Components** - Beautiful, accessible UI primitives
-- **⚡ Data Fetching** - TanStack Query with optimistic updates
-- **🔔 Toast Notifications** - Sonner for beautiful notifications
 - **👑 Admin Dashboard** - Full admin panel with user, product, order management
 
 ---
@@ -76,7 +71,7 @@ soa-express-better-auth/
 | [Nanoid](https://github.com/ai/nanoid) | **5.0.9** | Secure ID Generation |
 | [ioredis](https://github.com/luin/ioredis) | **5.10.0** | Redis Client |
 
-### Frontend (React + Vite + Tailwind v4 + shadcn/ui)
+### Frontend (React + Vite)
 
 | Package | Version | Purpose |
 |---------|----------|----------|
@@ -85,19 +80,13 @@ soa-express-better-auth/
 | [TanStack Query](https://tanstack.com/query) | **5.0.5** | Data Fetching |
 | [TanStack Router](https://tanstack.com/router) | **2.1.7** | Routing |
 | [Sonner](https://sonner.emilkowalski.com/) | **2.0.5** | Toast Notifications |
-| [Tailwind CSS](https://tailwindcss.com/) | **4.1.0** | Styling |
-| [@tailwindcss/vite](https://www.npmjs.com/package/@tailwindcss/vite) | **4.1.0** | Tailwind Vite Plugin |
-| [@tailwindcss/forms](https://www.npmjs.com/package/@tailwindcss/forms) | **0.5.10** | Form Utilities |
-| [@tailwindcss/animate](https://www.npmjs.com/package/@tailwindcss/animate) | **1.0.4** | Animations |
 | [PostCSS](https://postcss.org/) | **8.5.10** | CSS Processing |
 | [Autoprefixer](https://github.com/postcss/autoprefixer) | **10.5.10** | Vendor Prefixes |
 | [Radix UI](https://www.radix-ui.com/) | Latest | Primitives |
 | [Class Variance Authority](https://cva.style/) | **0.8.1** | Variants |
-| [Tailwind Merge](https://github.com/dcastilho/tailwind-merge) | **2.6.0** | Utilities |
 | [Clsx](https://github.com/lukeedwards/clsx) | **2.1.0** | Conditional Classes |
 | [Lucide Icons](https://lucide.dev/) | **0.468.0** | Icon Library |
 | [Axios](https://axios-http.com/) | **1.8.4** | HTTP Client |
-| [shadcn/ui](https://ui.shadcn.com/) | Latest | UI Components |
 
 ---
 
@@ -110,7 +99,7 @@ soa-express-better-auth/
 │   ├── product-service/    # Port 3002 - Product Catalog & Inventory
 │   └── order-service/     # Port 3003 - Order Processing
 ├── gateway/               # Port 3000 - API Gateway with Proxy
-├── frontend/              # Port 5173 - React + Vite + Tailwind CSS v4 + shadcn/ui
+├── frontend/              # Port 5173 - React + Vite Frontend
 ├── shared/
 │   ├── types/             # Shared TypeScript Types
 │   ├── utils/             # Shared Utilities (Logger, Cache, Middleware)
@@ -209,8 +198,6 @@ soa-express-better-auth/
 - **TanStack Query 5.0.5** - Powerful data fetching and caching
 - **TanStack Router 2.1.7** - Client-side routing with route protection
 - **Sonner 2.0.5** - Beautiful toast notifications
-- **Tailwind CSS 4.1.0** - Utility-first CSS framework with @tailwindcss/vite plugin
-- **shadcn/ui Latest** - Beautiful, accessible UI primitives
 - **CSS Variables** - HSL-based color system for theming
 - **Lucide Icons 0.468.0** - Beautiful icon library
 
@@ -222,19 +209,17 @@ soa-express-better-auth/
 frontend/
 ├── src/
 │   ├── components/
-│   │   ├── ui/              # shadcn/ui components (Button, Input, Label, Card, Badge)
 │   │   ├── layout/          # Layout components (MainLayout, AuthLayout)
 │   │   └── pages/           # Page components
 │   ├── pages/                  # Route pages
 │   ├── lib/                   # Utilities (API client, cn)
 │   ├── hooks/                 # TanStack Query hooks
 │   ├── types/                 # TypeScript types
-│   ├── styles/                # Global CSS (Tailwind v4 with CSS variables)
+│   ├── styles/                # Global CSS
 │   ├── App.tsx               # Main app component
 │   └── main.tsx              # Entry point
 ├── public/                    # Static assets
-├── components.json            # shadcn/ui configuration
-├── tailwind.config.ts         # Tailwind v4.1.0 config with HSL colors
+│   ├── vite.config.ts           # Vite configuration
 ├── vite.config.ts             # Vite 7.3.1 configuration
 ├── package.json               # Dependencies
 ├── tsconfig.app.json         # TypeScript config (app)
@@ -243,134 +228,6 @@ frontend/
 
 ---
 
-## 🎨 Tailwind CSS v4.1.0 Features
-
-### 1. **New Engine - Built for Speed**
-- Up to **10x faster** builds (105ms vs 960ms)
-- Smaller footprint (**35% smaller**)
-- Rust-based for expensive operations
-
-### 2. **Unified Toolchain**
-- **@tailwindcss/vite plugin** - Official Vite plugin
-- No separate PostCSS config needed
-- Built-in vendor prefixing
-- No autoprefixer plugin required
-- Built-in nesting support
-
-### 3. **CSS-First Configuration**
-
-```typescript
-export default {
-  content: [ ... ],
-  theme: {
-    extend: {
-      colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: "hsl(var(--primary))",
-        // ... more CSS variables
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-    },
-  },
-  plugins: [],
-};
-```
-
-### 4. **CSS Variables for Theming**
-
-```css
-:root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
-  --card: 0 0% 100%;
-  --destructive: 0 62.8% 30.6%;
-  --border: 214.3 31.8% 91.4%;
-}
-
-.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
-  --primary: 217.2 91.2% 59.8%;
-  --card: 222.2 84% 4.9%;
-  --destructive: 0 62.8% 30.6%;
-  --border: 217.2 32.6% 17.5%;
-}
-```
-
-### 5. **Modern Color System**
-- **oklch() colors** - Wider gamut, P3 colors
-- Base colors: **neutral**, **stone**, **zinc** (new addition)
-- Chart colors (1-5)
-- Sidebar support
-
----
-
-## 🎨 shadcn/ui Latest Features
-
-### 1. **components.json Configuration**
-```json
-{
-  "$schema": "https://ui.shadcn.com/schema.json",
-  "style": "new-york",
-  "rsc": false,
-  "tsx": true,
-  "tailwind": {
-    "config": "tailwind.config.ts",
-    "css": "src/styles/index.css",
-    "baseColor": "slate",
-    "cssVariables": true,
-    "prefix": ""
-  },
-  "aliases": {
-    "components": "@/components",
-    "utils": "@/lib"
-  },
-  "iconLibrary": "lucide"
-}
-```
-
-### 2. **CSS Variables Theming**
-```json
-// Set to true (recommended)
-"cssVariables": true
-```
-
-### 3. **CVA (Class Variance Authority)**
-```tsx
-// New way for type-safe variants
-const buttonVariants = cva(
-  'base classes',
-  {
-    variants: {
-      variant: {
-        default: 'default-classes',
-        destructive: 'destructive-classes',
-      },
-      size: {
-        default: 'size-classes',
-        sm: 'sm-classes',
-      },
-    }
-  }
-);
-```
-
-### 4. **Path Aliases**
-```tsx
-// Old way
-import { Button } from '../components/ui/button';
-
-// New way
-import { Button } from '@/components/ui/button';
-```
-
----
 
 ## 📄 Pages
 
@@ -628,7 +485,7 @@ cd frontend && npm run dev
 | [Nanoid](https://github.com/ai/nanoid) | **5.0.9** | Secure ID Generation |
 | [ioredis](https://github.com/luin/ioredis) | **5.10.0** | Redis Client |
 
-### Frontend (React + Vite + Tailwind v4 + shadcn/ui)
+### Frontend (React + Vite)
 
 | Package | Version | Purpose |
 |---------|----------|----------|
@@ -637,19 +494,13 @@ cd frontend && npm run dev
 | [TanStack Query](https://tanstack.com/query) | **5.0.5** | Data Fetching |
 | [TanStack Router](https://tanstack.com/router) | **2.1.7** | Routing |
 | [Sonner](https://sonner.emilkowalski.com/) | **2.0.5** | Toast Notifications |
-| [Tailwind CSS](https://tailwindcss.com/) | **4.1.0** | Styling |
-| [@tailwindcss/vite](https://www.npmjs.com/package/@tailwindcss/vite) | **4.1.0** | Tailwind Vite Plugin |
-| [@tailwindcss/forms](https://www.npmjs.com/package/@tailwindcss/forms) | **0.5.10** | Form Utilities |
-| [@tailwindcss/animate](https://www.npmjs.com/package/@tailwindcss/animate) | **1.0.4** | Animations |
 | [PostCSS](https://postcss.org/) | **8.5.10** | CSS Processing |
 | [Autoprefixer](https://github.com/postcss/autoprefixer) | **10.5.10** | Vendor Prefixes |
 | [Radix UI](https://www.radix-ui.com/) | Latest | Primitives |
 | [Class Variance Authority](https://cva.style/) | **0.8.1** | Variants |
-| [Tailwind Merge](https://github.com/dcastilho/tailwind-merge) | **2.6.0** | Utilities |
 | [Clsx](https://github.com/lukeedwards/clsx) | **2.1.0** | Conditional Classes |
 | [Lucide Icons](https://lucide.dev/) | **0.468.0** | Icon Library |
 | [Axios](https://axios-http.com/) | **1.8.4** | HTTP Client |
-| [shadcn/ui](https://ui.shadcn.com/) | Latest | UI Components |
 
 ---
 
@@ -663,16 +514,15 @@ soa-express-better-auth/
 │   ├── order-service/      (6 files)   Port 3003 - Orders
 │   └── admin-service/      (5 files)   Port 3004 - Admin Dashboard
 ├── gateway/               (4 files)   Port 3000 - API Gateway
-├── frontend/              (15 files)  Port 5173 - React + Vite + Tailwind v4 + shadcn/ui
+├── frontend/              (15 files)  Port 5173 - React + Vite
 │   ├── components/
-│   │   ├── ui/              # shadcn/ui components
 │   │   ├── layout/          # Layout components
 │   │   └── pages/           # Page components
 │   ├── pages/                  # Route pages
 │   ├── lib/                   # Utilities (API client, cn)
 │   ├── hooks/                 # TanStack Query hooks
 │   ├── types/                 # TypeScript types
-│   ├── styles/                # Global CSS (Tailwind v4)
+│   ├── styles/                # Global CSS
 │   ├── App.tsx               # Main app component
 │   └── main.tsx              # Entry point
 ├── shared/
@@ -822,8 +672,6 @@ Built with:
 - **Redis 8 (IORedis v5)** - Caching
 - **React 19.2.0** - Frontend Framework
 - **Vite 7.3.1** - Build Tool
-- **Tailwind CSS 4.1.0** - Styling
-- **shadcn/ui** - UI Components
 - **TanStack Query 5.0.5** - Data Fetching
 - **TanStack Router 2.1.7** - Routing
 - **Sonner 2.0.5** - Toast Notifications
