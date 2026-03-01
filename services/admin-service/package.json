@@ -1,0 +1,33 @@
+{
+  "name": "@soa/admin-service",
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@soa/shared-drizzle": "file:../../shared/drizzle",
+    "@soa/shared-types": "file:../../shared/types",
+    "@soa/shared-utils": "file:../../shared/utils",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "zod": "^4.3.6"
+  },
+  "peerDependencies": {
+    "drizzle-orm": "^0.45.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/morgan": "^1.9.10",
+    "tsx": "^4.21.0",
+    "typescript": "^5.8.0",
+    "drizzle-orm": "^0.45.1"
+  },
+  "resolutions": {
+    "drizzle-orm": "^0.45.1"
+  }
+}
