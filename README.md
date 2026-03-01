@@ -34,7 +34,7 @@ soa-express-better-auth/
 
 - **🔐 Modern Authentication** - Better Auth with sessions, OAuth (Google, GitHub), 2FA, email verification
 - **🗄️ Type-Safe Database** - Drizzle ORM with TypeScript
-- **🐘 PostgreSQL 17** - Reliable relational database with JSONB
+- **🐘 PostgreSQL 18** - Reliable relational database with JSONB
 - **⚡ Redis Caching** - IORedis v5 for high-performance caching
 - **🛡️ Security** - Helmet, rate limiting, CORS, input validation
 - **📦 Full TypeScript** - Complete type safety across all services and frontend
@@ -818,7 +818,7 @@ Built with:
 - **Express 5.2.1** - Backend Framework
 - **Better Auth 1.4.20** - Authentication
 - **Drizzle ORM 0.45.1** - Database ORM
-- **PostgreSQL 17** - Database
+- **PostgreSQL 18** - Database
 - **Redis 8 (IORedis v5)** - Caching
 - **React 19.2.0** - Frontend Framework
 - **Vite 7.3.1** - Build Tool

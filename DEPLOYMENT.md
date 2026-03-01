@@ -5,7 +5,7 @@ This guide covers deploying SOA Express boilerplate to production environments.
 ## 🎯 Prerequisites
 
 - Docker & Docker Compose (for containerized deployment)
-- PostgreSQL 17+ (managed or self-hosted)
+- PostgreSQL 18+ (managed or self-hosted)
 - Redis 7+ (managed or self-hosted)
 - Domain name with SSL (recommended for production)
 - Node.js 20+ runtime
