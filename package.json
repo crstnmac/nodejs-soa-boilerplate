@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "install:all": "npm install && npm install --prefix shared/types && npm install --prefix shared/utils && npm install --prefix shared/drizzle && npm install --prefix services/user-service && npm install --prefix services/product-service && npm install --prefix services/order-service && npm install --prefix services/admin-service && npm install --prefix gateway && npm install --prefix frontend",
     "install:frontend": "cd frontend && npm install",
     "build": "npm run build:all",
     "build:all": "cd shared/types && npm run build && cd shared/utils && npm run build && cd shared/drizzle && npm run build && cd services/user-service && npm run build && cd services/product-service && npm run build && cd services/order-service && npm run build && cd gateway && npm run build && cd frontend && npm run build",
