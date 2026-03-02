@@ -1,6 +1,4 @@
-// @ts-nocheck
 import express from 'express';
-import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
@@ -11,8 +9,8 @@ import {
   requestIdMiddleware,
   corsMiddleware,
 } from '@soa/shared-utils';
-import { getDb } from '@soa/shared-drizzle';
-import { auth } from './auth.config';
+import { toNodeHandler } from 'better-auth/node';
+import { auth } from './auth';
 import userRoutes from './routes/user.routes';
 
 const app = express();
@@ -79,7 +77,7 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 // Request ID Middleware
 // ============================================
 
-app.use(requestIdMiddleware());
+app.use(requestIdMiddleware);
 
 // ============================================
 // Health Check
@@ -98,9 +96,7 @@ app.get('/health', (req: any, res: any) => {
 // Better Auth Handler
 // ============================================
 
-app.all('/api/auth/*', async (req: any, res: any) => {
-  await auth.handler(req, res);
-});
+app.all('/api/auth/*path', toNodeHandler(auth));
 
 // ============================================
 // User Routes
@@ -126,13 +122,13 @@ app.use(errorHandler(logger));
 
 const gracefulShutdown = async (signal: string) => {
   logger.info(`${signal} received, shutting down gracefully...`);
-  
+
   // Stop accepting new connections
   server.close(() => {
     logger.info('Server closed successfully');
     process.exit(0);
   });
-  
+
   // Force shutdown after 30 seconds
   setTimeout(() => {
     logger.warn('Forcing shutdown after timeout');

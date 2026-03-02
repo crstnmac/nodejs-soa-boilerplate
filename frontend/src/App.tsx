@@ -36,6 +36,25 @@ const rootRoute = createRootRoute({
   component: () => <Outlet />,
 });
 
+// Index route — redirect to /products if authenticated, otherwise /sign-in
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  beforeLoad: async () => {
+    try {
+      const { authApi } = await import('./lib/api');
+      const response = await authApi.getSession();
+      const user = (response as any)?.user ?? (response as any)?.data?.user;
+      throw redirect({ to: user ? '/products' : '/sign-in' });
+    } catch (error) {
+      if (error instanceof Error) {
+        throw redirect({ to: '/sign-in' });
+      }
+      throw error;
+    }
+  },
+});
+
 // Auth routes
 const signInRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -79,7 +98,7 @@ const adminLayoutRoute = createRoute({
     try {
       const { authApi } = await import('./lib/api');
       const response = await authApi.getSession();
-      const user = response?.data?.user;
+      const user = (response as any)?.user ?? (response as any)?.data?.user;
       if (!user || user.role !== UserRole.ADMIN) {
         throw redirect({ to: '/sign-in', search: { redirect: window.location.pathname } });
       }
@@ -127,6 +146,7 @@ const adminRootRoute = createRoute({
 });
 
 const routeTree = rootRoute.addChildren([
+  indexRoute,
   signInRoute,
   signUpRoute,
   productsRoute,

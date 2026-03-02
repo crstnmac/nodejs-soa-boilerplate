@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { eq, and, desc, sql, like, or, inArray } from 'drizzle-orm';
 import { getDb, users, products, categories, orders, orderItems } from '@soa/shared-drizzle';
 import type { Logger } from '@soa/shared-utils';
@@ -51,7 +50,7 @@ export class AdminController {
     };
   }
 
-  async getUserById(id: number) {
+  async getUserById(id: string) {
     const user = await db.query.users.findFirst({
       where: eq(users.id, id),
     });
@@ -63,7 +62,7 @@ export class AdminController {
     return user;
   }
 
-  async updateUser(id: number, data: { role?: string; status?: string }) {
+  async updateUser(id: string, data: { role?: string; status?: string }) {
     const updateData: any = {};
 
     if (data.role) {
@@ -98,7 +97,7 @@ export class AdminController {
     return updatedUser;
   }
 
-  async deleteUser(id: number) {
+  async deleteUser(id: string) {
     const [deletedUser] = await db
       .delete(users)
       .where(eq(users.id, id))
@@ -113,7 +112,7 @@ export class AdminController {
     return deletedUser;
   }
 
-  async changeUserRole(id: number, role: string) {
+  async changeUserRole(id: string, role: string) {
     if (role !== 'user' && role !== 'admin') {
       throw new ConflictError('Invalid role');
     }
@@ -141,7 +140,7 @@ export class AdminController {
     page: number;
     limit: number;
     search?: string;
-    categoryId?: number;
+    categoryId?: string;
   }) {
     const { page, limit, search, categoryId } = params;
     const offset = (page - 1) * limit;
@@ -179,7 +178,7 @@ export class AdminController {
     };
   }
 
-  async getProductById(id: number) {
+  async getProductById(id: string) {
     const product = await db.query.products.findFirst({
       where: eq(products.id, id),
       with: {
@@ -199,7 +198,7 @@ export class AdminController {
     description?: string;
     price: string;
     stock: number;
-    categoryId?: number;
+    categoryId?: string;
     image?: string;
   }) {
     const [newProduct] = await db
@@ -219,12 +218,12 @@ export class AdminController {
     return newProduct;
   }
 
-  async updateProduct(id: number, data: {
+  async updateProduct(id: string, data: {
     name?: string;
     description?: string;
     price?: string;
     stock?: number;
-    categoryId?: number;
+    categoryId?: string;
     image?: string;
     status?: 'active' | 'inactive' | 'archived';
   }) {
@@ -246,7 +245,7 @@ export class AdminController {
     return updatedProduct;
   }
 
-  async deleteProduct(id: number) {
+  async deleteProduct(id: string) {
     const [deletedProduct] = await db
       .delete(products)
       .where(eq(products.id, id))
@@ -290,7 +289,7 @@ export class AdminController {
     return newCategory;
   }
 
-  async updateCategory(id: number, data: { name?: string; description?: string }) {
+  async updateCategory(id: string, data: { name?: string; description?: string }) {
     const updateData: any = { ...data };
     updateData.updatedAt = new Date();
 
@@ -309,7 +308,7 @@ export class AdminController {
     return updatedCategory;
   }
 
-  async deleteCategory(id: number) {
+  async deleteCategory(id: string) {
     const [deletedCategory] = await db
       .delete(categories)
       .where(eq(categories.id, id))
@@ -365,7 +364,7 @@ export class AdminController {
     };
   }
 
-  async getOrderById(id: number) {
+  async getOrderById(id: string) {
     const order = await db.query.orders.findFirst({
       where: eq(orders.id, id),
       with: {
@@ -386,7 +385,7 @@ export class AdminController {
   }
 
   async updateOrderStatus(
-    id: number,
+    id: string,
     status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
   ) {
     const [order] = await db
@@ -404,7 +403,7 @@ export class AdminController {
     return order;
   }
 
-  async cancelOrder(id: number) {
+  async cancelOrder(id: string) {
     const order = await this.getOrderById(id);
 
     if (order.status === 'cancelled') {

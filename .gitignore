@@ -45,8 +45,5 @@ temp/
 *.sqlite
 *.sqlite3
 
-# Drizzle
-drizzle/
-
 # Docker
 .dockerignore

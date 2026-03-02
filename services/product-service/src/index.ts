@@ -8,6 +8,7 @@ import {
   notFoundHandler,
   requestIdMiddleware,
   corsMiddleware,
+  getCache,
 } from '@soa/shared-utils';
 import { getDb } from '@soa/shared-drizzle';
 import { initProductRoutes } from './routes/product.routes';
@@ -75,8 +76,7 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 
 app.use(requestIdMiddleware);
 
-// Connect to Redis (initialized in routes)
-import { getCache } from '@soa/shared-utils';
+// Connect to Redis
 const cache = getCache(logger);
 
 // Initialize product routes with logger and cache

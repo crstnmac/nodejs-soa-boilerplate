@@ -7,7 +7,7 @@
 // ============================================
 
 export interface User {
-  id: number;
+  id: string;
   email: string;
   name: string | null;
   role: UserRole;
@@ -43,12 +43,12 @@ export interface ChangePasswordDTO {
 // ============================================
 
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string | null;
   price: string;
   stock: number;
-  categoryId: number | null;
+  categoryId: string | null;
   image: string | null;
   status: 'active' | 'inactive' | 'archived';
   createdAt: Date;
@@ -60,7 +60,7 @@ export interface CreateProductDTO {
   description?: string;
   price: string;
   stock: number;
-  categoryId?: number;
+  categoryId?: string;
   image?: string;
 }
 
@@ -69,7 +69,7 @@ export interface UpdateProductDTO {
   description?: string;
   price?: string;
   stock?: number;
-  categoryId?: number;
+  categoryId?: string;
   image?: string;
   status?: 'active' | 'inactive' | 'archived';
 }
@@ -79,7 +79,7 @@ export interface UpdateProductDTO {
 // ============================================
 
 export interface Category {
-  id: number;
+  id: string;
   name: string;
   description: string | null;
   createdAt: Date;
@@ -96,8 +96,8 @@ export interface CreateCategoryDTO {
 // ============================================
 
 export interface Order {
-  id: number;
-  userId: number;
+  id: string;
+  userId: string;
   total: string;
   status: OrderStatus;
   shippingAddress: string | null;
@@ -115,15 +115,15 @@ export enum OrderStatus {
 }
 
 export interface OrderItem {
-  id: number;
-  orderId: number;
-  productId: number;
+  id: string;
+  orderId: string;
+  productId: string;
   quantity: number;
   price: string;
 }
 
 export interface OrderProductDTO {
-  productId: number;
+  productId: string;
   quantity: number;
 }
 
@@ -141,7 +141,7 @@ export interface UpdateOrderStatusDTO {
 
 export interface Session {
   id: string;
-  userId: number;
+  userId: string;
   expiresAt: Date;
   token: string;
 }
@@ -197,7 +197,7 @@ export interface PaginationParams {
 
 export interface ProductSearchParams extends PaginationParams {
   search?: string;
-  categoryId?: number;
+  categoryId?: string;
 }
 
 // ============================================

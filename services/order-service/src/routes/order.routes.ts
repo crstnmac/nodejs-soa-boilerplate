@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { Router } from 'express';
-import { asyncHandler, successResponse, createdResponse, validateBody, validateParams, validateQuery, paginationSchema } from '@soa/shared-utils';
+import { asyncHandler, successResponse, createdResponse, validateBody, validateParams, validateQuery, paginationSchema, getValidatedQuery } from '@soa/shared-utils';
 import { requireAuth, requireAdmin } from '../middleware/auth.middleware';
 import { z } from 'zod';
 import { OrderController } from '../controllers/order.controller';
@@ -25,7 +25,7 @@ router.get(
   requireAuth,
   validateQuery(paginationSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const result = await orderController.getUserOrders(req.user?.id || 0, req.query as any);
+    const result = await orderController.getUserOrders(req.user!.id, getValidatedQuery(req, res));
     return successResponse(result);
   })
 );
@@ -35,7 +35,7 @@ router.get(
   requireAuth,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const order = await orderController.getOrderById(parseInt(req.params.id as string));
+    const order = await orderController.getOrderById(req.params.id as string);
     return successResponse(order);
   })
 );
@@ -54,12 +54,12 @@ router.post(
   requireAuth,
   validateBody(z.object({
     items: z.array(z.object({
-      productId: z.coerce.number().int().positive(),
+      productId: z.string(),
       quantity: z.coerce.number().int().positive().min(1),
     })).min(1),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const order = await orderController.createOrder(req.user?.id || 0, req.body as CreateOrderDTO);
+    const order = await orderController.createOrder(req.user!.id, req.body as CreateOrderDTO);
     return createdResponse(order);
   })
 );
@@ -72,7 +72,7 @@ router.put(
     status: z.enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const order = await orderController.updateOrderStatus(parseInt(req.params.id as string), req.body.status);
+    const order = await orderController.updateOrderStatus(req.params.id as string, req.body.status);
     return successResponse(order);
   })
 );
@@ -82,7 +82,7 @@ router.delete(
   requireAuth,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    await orderController.cancelOrder(parseInt(req.params.id as string), req.user?.id || 0);
+    await orderController.cancelOrder(req.params.id as string, req.user!.id);
     return successResponse({ success: true, message: 'Order cancelled successfully' });
   })
 );

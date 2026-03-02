@@ -50,7 +50,7 @@ export interface SignInCredentials {
 }
 
 export interface SignUpCredentials extends SignInCredentials {
-  name?: string;
+  name: string;
 }
 
 // Product Types

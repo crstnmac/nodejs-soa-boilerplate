@@ -1,7 +1,7 @@
 import type { Request } from 'express';
 import type { Response } from 'express';
 import { Router } from 'express';
-import { asyncHandler, successResponse, createdResponse, validateParams, validateBody, validateQuery, paginationSchema, idSchema, searchSchema } from '@soa/shared-utils';
+import { asyncHandler, successResponse, createdResponse, validateParams, validateBody, validateQuery, paginationSchema, idSchema, searchSchema, getValidatedQuery } from '@soa/shared-utils';
 import { requireAdmin } from '../middleware/auth.middleware';
 import { z } from 'zod';
 import { ProductController } from '../controllers/product.controller';
@@ -22,9 +22,9 @@ export const initProductRoutes = (logger: Logger, cache: CacheService) => {
 
 router.get(
   '/',
-  validateQuery(paginationSchema.extend(searchSchema)),
+  validateQuery(paginationSchema.merge(searchSchema)),
   asyncHandler(async (req: Request, res: Response) => {
-    const result = await productController.getAllProducts(req.query as any);
+    const result = await productController.getAllProducts(getValidatedQuery(req, res));
     return successResponse(result);
   })
 );
@@ -45,7 +45,7 @@ router.get(
   '/:id',
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const product = await productController.getProductById(parseInt(req.params.id as string));
+    const product = await productController.getProductById(req.params.id as string);
     return successResponse(product);
   })
 );
@@ -58,7 +58,7 @@ router.post(
     description: z.string().max(1000).optional(),
     price: z.string().regex(/^\d+(\.\d{1,2})?$/),
     stock: z.coerce.number().int().min(0),
-    categoryId: z.coerce.number().int().positive().optional(),
+    categoryId: z.string().optional(),
     image: z.string().url().optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
@@ -76,12 +76,12 @@ router.patch(
     description: z.string().max(1000).optional(),
     price: z.string().regex(/^\d+(\.\d{1,2})?$/).optional(),
     stock: z.coerce.number().int().min(0).optional(),
-    categoryId: z.coerce.number().int().positive().optional(),
+    categoryId: z.string().optional(),
     image: z.string().url().optional(),
     status: z.enum(['active', 'inactive', 'archived']).optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const product = await productController.updateProduct(parseInt(req.params.id as string), req.body as UpdateProductDTO);
+    const product = await productController.updateProduct(req.params.id as string, req.body as UpdateProductDTO);
     return successResponse(product);
   })
 );
@@ -91,7 +91,7 @@ router.delete(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    await productController.deleteProduct(parseInt(req.params.id as string));
+    await productController.deleteProduct(req.params.id as string);
     return successResponse({ success: true, message: 'Product deleted successfully' });
   })
 );

@@ -1,8 +1,7 @@
-// @ts-nocheck
 import type { Request, Response, NextFunction } from 'express';
 import type { Logger } from '@soa/shared-utils';
-import type { Session } from '../auth.config';
-import { auth } from '../auth.config';
+import type { Session } from '../auth';
+import { auth } from '../auth';
 import { UnauthorizedError, ForbiddenError } from '@soa/shared-types';
 
 export const requireAuth = async (
@@ -11,16 +10,16 @@ export const requireAuth = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const session = await auth.api.getSession({
+    const result = await auth.api.getSession({
       headers: req.headers,
     });
 
-    if (!session) {
+    if (!result) {
       throw new UnauthorizedError('No active session found');
     }
 
-    req.user = session.user;
-    req.session = session;
+    req.user = result.user as unknown as { id: string; email: string; role: string };
+    req.session = result.session as unknown as { id: string; userId: string };
     next();
   } catch (error) {
     next(error);
@@ -33,20 +32,21 @@ export const requireAdmin = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const session = await auth.api.getSession({
+    const result = await auth.api.getSession({
       headers: req.headers,
     });
 
-    if (!session) {
+    if (!result) {
       throw new UnauthorizedError('No active session found');
     }
 
-    if (session.user.role !== 'admin') {
+    const userRole = (result.user as any).role;
+    if (userRole !== 'admin') {
       throw new ForbiddenError('Admin access required');
     }
 
-    req.user = session.user;
-    req.session = session;
+    req.user = result.user as unknown as { id: string; email: string; role: string };
+    req.session = result.session as unknown as { id: string; userId: string };
     next();
   } catch (error) {
     next(error);
@@ -59,13 +59,13 @@ export const optionalAuth = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const session = await auth.api.getSession({
+    const result = await auth.api.getSession({
       headers: req.headers,
     });
 
-    if (session) {
-      req.user = session.user;
-      req.session = session;
+    if (result) {
+      req.user = result.user as unknown as { id: string; email: string; role: string };
+      req.session = result.session as unknown as { id: string; userId: string };
     }
     next();
   } catch (error) {

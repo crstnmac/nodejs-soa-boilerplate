@@ -1,7 +1,6 @@
-// @ts-nocheck
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import { auth } from '../auth.config';
+import { auth } from '../auth';
 import { requireAuth, requireAdmin } from '../middleware/auth.middleware';
 import { asyncHandler, validateBody, validateParams, idSchema } from '@soa/shared-utils';
 import { z } from 'zod';
@@ -17,17 +16,17 @@ const userController = new UserController(logger);
 // ============================================
 
 router.post('/sign-up', asyncHandler(async (req: Request, res: Response) => {
-  await auth.api.signUpEmail(req.body);
+  await auth.api.signUpEmail({ body: req.body } as any);
   return createdResponse({ success: true, message: 'User registered successfully' });
 }));
 
 router.post('/sign-in', asyncHandler(async (req: Request, res: Response) => {
-  const session = await auth.api.signInEmail(req.body);
-  return successResponse({ session, user: session.user });
+  const session = await auth.api.signInEmail({ body: req.body } as any) as any;
+  return successResponse({ session, user: session?.user });
 }));
 
 router.post('/sign-out', asyncHandler(async (req: Request, res: Response) => {
-  await auth.api.signOut(req.body);
+  await auth.api.signOut({ body: req.body } as any);
   return noContentResponse();
 }));
 
@@ -43,7 +42,7 @@ router.get('/session', asyncHandler(async (req: Request, res: Response) => {
 // ============================================
 
 router.get('/oauth/google', asyncHandler(async (req: Request, res: Response) => {
-  const url = await auth.api.getOAuthRedirectURL({
+  const url = await (auth.api as any).getOAuthRedirectURL({
     providerId: 'google',
     redirectURL: `${process.env.AUTH_URL}/auth/callback/google`,
   });
@@ -51,7 +50,7 @@ router.get('/oauth/google', asyncHandler(async (req: Request, res: Response) => 
 }));
 
 router.get('/oauth/github', asyncHandler(async (req: Request, res: Response) => {
-  const url = await auth.api.getOAuthRedirectURL({
+  const url = await (auth.api as any).getOAuthRedirectURL({
     providerId: 'github',
     redirectURL: `${process.env.AUTH_URL}/auth/callback/github`,
   });
@@ -63,7 +62,7 @@ router.get('/oauth/github', asyncHandler(async (req: Request, res: Response) => 
 // ============================================
 
 router.get('/me', requireAuth, asyncHandler(async (req: Request, res: Response) => {
-  const user = await userController.getProfile(req.user.id);
+  const user = await userController.getProfile(req.user!.id);
   return successResponse(user);
 }));
 
@@ -75,13 +74,13 @@ router.patch(
     email: z.string().email().optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const user = await userController.updateProfile(req.user.id, req.body);
+    const user = await userController.updateProfile(req.user!.id, req.body);
     return successResponse(user);
   })
 );
 
 router.delete('/me', requireAuth, asyncHandler(async (req: Request, res: Response) => {
-  await userController.deleteAccount(req.user.id);
+  await userController.deleteAccount(req.user!.id);
   return noContentResponse();
 }));
 
@@ -93,7 +92,7 @@ router.post(
     newPassword: z.string().min(8).max(100),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    await userController.changePassword(req.user.id, req.body);
+    await userController.changePassword(req.user!.id, req.body);
     return createdResponse({ success: true, message: 'Password changed successfully' });
   })
 );

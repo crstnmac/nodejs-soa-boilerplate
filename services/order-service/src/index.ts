@@ -8,6 +8,7 @@ import {
   notFoundHandler,
   requestIdMiddleware,
   corsMiddleware,
+  getCache,
 } from '@soa/shared-utils';
 import { getDb } from '@soa/shared-drizzle';
 import { OrderController } from './controllers/order.controller';
@@ -93,7 +94,6 @@ app.get('/health', (req: any, res: any) => {
 // Connect to Redis (initialized in routes)
 // ============================================
 
-import { getCache } from '@soa/shared-utils';
 const cache = getCache(logger);
 
 // ============================================

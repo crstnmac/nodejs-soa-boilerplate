@@ -1,5 +1,5 @@
 import { Router, type Request, type Response } from 'express';
-import { createProxyMiddleware, type Options as ProxyOptions } from 'http-proxy-middleware';
+import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 import { createLogger } from '@soa/shared-utils';
 import type { HealthCheck, ServiceUnavailableError } from '@soa/shared-types';
 
@@ -12,20 +12,23 @@ const SERVICES = {
   orderService: process.env.ORDER_SERVICE_URL || 'http://localhost:3003',
 };
 
-// Route mappings
-const ROUTES: Record<string, { target: string; pathRewrite?: Record<string, string> }> = {
-  '/api/auth': {
+// Route mappings (paths are relative to the /api mount point in index.ts)
+const ROUTES = {
+  '/auth': {
     target: SERVICES.userService,
-    pathRewrite: { '^/api/auth': '/api/auth' },
+    pathRewrite: { '^': '/api/auth' },
   },
-  '/api/users': {
+  '/users': {
     target: SERVICES.userService,
+    pathRewrite: { '^': '/api/users' },
   },
-  '/api/products': {
+  '/products': {
     target: SERVICES.productService,
+    pathRewrite: { '^': '/api/products' },
   },
-  '/api/orders': {
+  '/orders': {
     target: SERVICES.orderService,
+    pathRewrite: { '^': '/api/orders' },
   },
 };
 
@@ -37,31 +40,33 @@ const router = Router();
 
 const proxyOptions: any = {
   changeOrigin: true,
-  onProxyReq: (proxyReq: any, req: any) => {
-    logger.debug('Proxying request', {
-      method: req.method,
-      path: req.path,
-      target: proxyReq.opts.target,
-      requestId: req.id,
-    });
-  },
-  onError: (err: any, req: any, res: any) => {
-    logger.error('Proxy error', {
-      path: req.path,
-      target: err.message,
-      requestId: req.id,
-    });
-
-    if (!res.headersSent) {
-      res.status(502).json({
-        success: false,
-        error: {
-          code: 'BAD_GATEWAY',
-          message: `Service unavailable: ${err.message}`,
-        },
-        timestamp: new Date().toISOString(),
+  on: {
+    proxyReq: (proxyReq: any, req: any) => {
+      fixRequestBody(proxyReq, req as any);
+      logger.debug('Proxying request', {
+        method: req.method,
+        path: req.path,
+        requestId: req.id,
       });
-    }
+    },
+    error: (err: any, req: any, res: any) => {
+      logger.error('Proxy error', {
+        path: req.path,
+        message: err.message,
+        requestId: req.id,
+      });
+
+      if (!res.headersSent) {
+        res.status(502).json({
+          success: false,
+          error: {
+            code: 'BAD_GATEWAY',
+            message: `Service unavailable: ${err.message}`,
+          },
+          timestamp: new Date().toISOString(),
+        });
+      }
+    },
   },
 };
 

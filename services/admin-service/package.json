@@ -12,22 +12,17 @@
     "@soa/shared-drizzle": "file:../../shared/drizzle",
     "@soa/shared-types": "file:../../shared/types",
     "@soa/shared-utils": "file:../../shared/utils",
+    "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
     "express-rate-limit": "^7.5.0",
     "helmet": "^8.0.0",
+    "morgan": "^1.10.1",
     "zod": "^4.3.6"
-  },
-  "peerDependencies": {
-    "drizzle-orm": "^0.45.1"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/morgan": "^1.9.10",
     "tsx": "^4.21.0",
-    "typescript": "^5.8.0",
-    "drizzle-orm": "^0.45.1"
-  },
-  "resolutions": {
-    "drizzle-orm": "^0.45.1"
+    "typescript": "^5.8.0"
   }
 }

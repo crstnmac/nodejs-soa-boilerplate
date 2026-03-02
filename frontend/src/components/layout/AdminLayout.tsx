@@ -10,6 +10,7 @@ export function AdminLayout() {
   const { data: session } = useSession();
   const signOut = useSignOut();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const sessionUser = (session as any)?.user ?? (session as any)?.data?.user;
 
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
@@ -44,7 +45,7 @@ export function AdminLayout() {
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-2 text-sm">
               <span className="text-muted-foreground">Welcome,</span>
-              <span className="font-medium">{session?.data?.user?.name || session?.data?.user?.email || 'Admin'}</span>
+              <span className="font-medium">{sessionUser?.name || sessionUser?.email || 'Admin'}</span>
             </div>
             <Button
               variant="outline"

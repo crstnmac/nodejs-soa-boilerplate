@@ -86,13 +86,13 @@ declare module 'express' {
   interface Request {
     id?: string;
     user?: {
-      id: number;
+      id: string;
       email: string;
       role: string;
     };
     session?: {
       id: string;
-      userId: number;
+      userId: string;
     };
   }
 }

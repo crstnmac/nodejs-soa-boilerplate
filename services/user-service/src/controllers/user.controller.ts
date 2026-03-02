@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { eq } from 'drizzle-orm';
 import { getDb, users } from '@soa/shared-drizzle';
 import type { User, ChangePasswordDTO } from '@soa/shared-types';
@@ -11,7 +10,7 @@ const db = getDb();
 export class UserController {
   constructor(private logger: Logger) {}
 
-  async getProfile(userId: number): Promise<User> {
+  async getProfile(userId: string): Promise<User> {
     const user = await db.query.users.findFirst({
       where: eq(users.id, userId),
       columns: {
@@ -30,11 +29,11 @@ export class UserController {
       throw new ConflictError('User not found');
     }
 
-    return user as User;
+    return user as unknown as User;
   }
 
   async updateProfile(
-    userId: number,
+    userId: string,
     data: any
   ): Promise<User> {
     // Check if email already exists
@@ -62,10 +61,10 @@ export class UserController {
     }
 
     this.logger.info('User profile updated', { userId });
-    return updated as User;
+    return updated as unknown as User;
   }
 
-  async deleteAccount(userId: number): Promise<void> {
+  async deleteAccount(userId: string): Promise<void> {
     const [deleted] = await db
       .update(users)
       .set({
@@ -84,7 +83,7 @@ export class UserController {
   }
 
   async changePassword(
-    userId: number,
+    userId: string,
     dto: ChangePasswordDTO
   ): Promise<void> {
     const user = await db.query.users.findFirst({
@@ -95,11 +94,11 @@ export class UserController {
       throw new ConflictError('User not found');
     }
 
-    if (!user.passwordHash) {
+    if (!user.password) {
       throw new ConflictError('User uses OAuth login, cannot change password');
     }
 
-    const isValid = await bcrypt.compare(dto.oldPassword, user.passwordHash);
+    const isValid = await bcrypt.compare(dto.oldPassword, user.password);
     if (!isValid) {
       throw new ConflictError('Invalid current password');
     }
@@ -109,7 +108,7 @@ export class UserController {
     await db
       .update(users)
       .set({
-        passwordHash: hashedPassword,
+        password: hashedPassword,
         updatedAt: new Date(),
       })
       .where(eq(users.id, userId));

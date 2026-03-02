@@ -21,7 +21,7 @@ export default function SignUp() {
     const credentials: SignUpCredentials = {
       email: formData.get('email') as string,
       password: formData.get('password') as string,
-      name: formData.get('name') as string | undefined,
+      name: formData.get('name') as string,
     };
 
     try {
@@ -48,6 +48,7 @@ export default function SignUp() {
                 name="name"
                 type="text"
                 placeholder="John Doe"
+                required
                 disabled={isLoading}
               />
             </div>

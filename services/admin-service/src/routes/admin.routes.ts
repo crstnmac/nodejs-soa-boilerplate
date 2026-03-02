@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { Router } from 'express';
-import { asyncHandler, successResponse, createdResponse, validateBody, validateParams, validateQuery, paginationSchema } from '@soa/shared-utils';
+import { asyncHandler, successResponse, createdResponse, validateBody, validateParams, validateQuery, paginationSchema, getValidatedQuery } from '@soa/shared-utils';
 import { requireAuth, requireAdmin } from '../middleware/auth.middleware';
 import { z } from 'zod';
 import { AdminController } from '../controllers/admin.controller';
@@ -26,7 +26,7 @@ router.get(
     search: z.string().optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const result = await adminController.listUsers(req.query as any);
+    const result = await adminController.listUsers(getValidatedQuery(req, res));
     return successResponse(result);
   })
 );
@@ -37,7 +37,7 @@ router.get(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const user = await adminController.getUserById(parseInt(req.params.id as string));
+    const user = await adminController.getUserById(req.params.id as string);
     return successResponse(user);
   })
 );
@@ -52,7 +52,7 @@ router.put(
     status: z.enum(['active', 'inactive']).optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const user = await adminController.updateUser(parseInt(req.params.id as string), req.body);
+    const user = await adminController.updateUser(req.params.id as string, req.body);
     return successResponse(user);
   })
 );
@@ -63,7 +63,7 @@ router.delete(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const user = await adminController.deleteUser(parseInt(req.params.id as string));
+    const user = await adminController.deleteUser(req.params.id as string);
     return successResponse(user);
   })
 );
@@ -77,7 +77,7 @@ router.put(
     role: z.enum(['user', 'admin']),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const user = await adminController.changeUserRole(parseInt(req.params.id as string), req.body.role);
+    const user = await adminController.changeUserRole(req.params.id as string, req.body.role);
     return successResponse(user);
   })
 );
@@ -92,10 +92,10 @@ router.get(
   requireAdmin,
   validateQuery(paginationSchema.extend({
     search: z.string().optional(),
-    categoryId: z.coerce.number().int().positive().optional(),
+    categoryId: z.string().optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const result = await adminController.listProducts(req.query as any);
+    const result = await adminController.listProducts(getValidatedQuery(req, res));
     return successResponse(result);
   })
 );
@@ -106,7 +106,7 @@ router.get(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const product = await adminController.getProductById(parseInt(req.params.id as string));
+    const product = await adminController.getProductById(req.params.id as string);
     return successResponse(product);
   })
 );
@@ -120,7 +120,7 @@ router.post(
     description: z.string().optional(),
     price: z.string().regex(/^\d+\.\d{2}$/),
     stock: z.coerce.number().int().min(0),
-    categoryId: z.coerce.number().int().positive().optional(),
+    categoryId: z.string().optional(),
     image: z.string().url().optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
@@ -139,12 +139,12 @@ router.put(
     description: z.string().optional(),
     price: z.string().regex(/^\d+\.\d{2}$/).optional(),
     stock: z.coerce.number().int().min(0).optional(),
-    categoryId: z.coerce.number().int().positive().optional(),
+    categoryId: z.string().optional(),
     image: z.string().url().optional(),
     status: z.enum(['active', 'inactive', 'archived']).optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const product = await adminController.updateProduct(parseInt(req.params.id as string), req.body);
+    const product = await adminController.updateProduct(req.params.id as string, req.body);
     return successResponse(product);
   })
 );
@@ -155,7 +155,7 @@ router.delete(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const product = await adminController.deleteProduct(parseInt(req.params.id as string));
+    const product = await adminController.deleteProduct(req.params.id as string);
     return successResponse(product);
   })
 );
@@ -198,7 +198,7 @@ router.put(
     description: z.string().optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const category = await adminController.updateCategory(parseInt(req.params.id as string), req.body);
+    const category = await adminController.updateCategory(req.params.id as string, req.body);
     return successResponse(category);
   })
 );
@@ -209,7 +209,7 @@ router.delete(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const category = await adminController.deleteCategory(parseInt(req.params.id as string));
+    const category = await adminController.deleteCategory(req.params.id as string);
     return successResponse(category);
   })
 );
@@ -226,7 +226,7 @@ router.get(
     status: z.enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled']).optional(),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const result = await adminController.listOrders(req.query as any);
+    const result = await adminController.listOrders(getValidatedQuery(req, res));
     return successResponse(result);
   })
 );
@@ -237,7 +237,7 @@ router.get(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const order = await adminController.getOrderById(parseInt(req.params.id as string));
+    const order = await adminController.getOrderById(req.params.id as string);
     return successResponse(order);
   })
 );
@@ -251,7 +251,7 @@ router.put(
     status: z.enum(['pending', 'processing', 'shipped', 'delivered', 'cancelled']),
   })),
   asyncHandler(async (req: Request, res: Response) => {
-    const order = await adminController.updateOrderStatus(parseInt(req.params.id as string), req.body.status);
+    const order = await adminController.updateOrderStatus(req.params.id as string, req.body.status);
     return successResponse(order);
   })
 );
@@ -262,7 +262,7 @@ router.delete(
   requireAdmin,
   validateParams(idSchema),
   asyncHandler(async (req: Request, res: Response) => {
-    const result = await adminController.cancelOrder(parseInt(req.params.id as string));
+    const result = await adminController.cancelOrder(req.params.id as string);
     return successResponse(result);
   })
 );

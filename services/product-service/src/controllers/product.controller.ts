@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { eq, desc, like, and, sql } from 'drizzle-orm';
 import { getDb, products, categories } from '@soa/shared-drizzle';
 import type { Logger } from '@soa/shared-utils';
@@ -18,7 +17,7 @@ export class ProductController {
     page: number;
     limit: number;
     search?: string;
-    categoryId?: number;
+    categoryId?: string;
   }) {
     const { page, limit, search, categoryId } = params;
     const offset = (page - 1) * limit;
@@ -72,7 +71,7 @@ export class ProductController {
     return result;
   }
 
-  async getProductById(id: number): Promise<Product> {
+  async getProductById(id: string): Promise<Product> {
     const cacheKey = `product:${id}`;
     const cached = await this.cache.get<Product>(cacheKey);
     if (cached) {
@@ -94,7 +93,7 @@ export class ProductController {
     // Cache for 30 minutes
     await this.cache.set(cacheKey, product, 1800);
 
-    return product as Product;
+    return product as unknown as Product;
   }
 
   async createProduct(
@@ -103,7 +102,7 @@ export class ProductController {
       description?: string;
       price: string;
       stock: number;
-      categoryId?: number;
+      categoryId?: string;
       image?: string;
     }
   ): Promise<Product> {
@@ -118,17 +117,17 @@ export class ProductController {
     await this.cache.delete(`product:${product.id}`);
     await this.cache.invalidatePattern('products:*');
 
-    return product as Product;
+    return product as unknown as Product;
   }
 
   async updateProduct(
-    id: number,
+    id: string,
     data: {
       name?: string;
       description?: string;
       price?: string;
       stock?: number;
-      categoryId?: number;
+      categoryId?: string;
       image?: string;
       status?: 'active' | 'inactive' | 'archived';
     }
@@ -149,10 +148,10 @@ export class ProductController {
     await this.cache.delete(`product:${id}`);
     await this.cache.invalidatePattern('products:*');
 
-    return product as Product;
+    return product as unknown as Product;
   }
 
-  async deleteProduct(id: number): Promise<void> {
+  async deleteProduct(id: string): Promise<void> {
     const [deleted] = await db
       .update(products)
       .set({ status: 'inactive', updatedAt: new Date() })

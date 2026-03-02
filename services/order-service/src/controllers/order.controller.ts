@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { eq, and, desc, sql, inArray } from 'drizzle-orm';
 import { getDb, orders, orderItems, products } from '@soa/shared-drizzle';
 import type { Logger } from '@soa/shared-utils';
@@ -14,7 +13,7 @@ export class OrderController {
     private cache: CacheService
   ) {}
 
-  async getUserOrders(userId: number, params: { page: number; limit: number }) {
+  async getUserOrders(userId: string, params: { page: number; limit: number }) {
     const { page, limit } = params;
     const offset = (page - 1) * limit;
 
@@ -48,9 +47,9 @@ export class OrderController {
     };
   }
 
-  async getOrderById(id: number, userId?: number): Promise<Order> {
-    const whereClause = userId 
-      ? and(eq(orders.id, id), eq(orders.userId, userId)) 
+  async getOrderById(id: string, userId?: string): Promise<Order> {
+    const whereClause = userId
+      ? and(eq(orders.id, id), eq(orders.userId, userId))
       : eq(orders.id, id);
 
     const order = await db.query.orders.findFirst({
@@ -68,12 +67,12 @@ export class OrderController {
       throw new NotFoundError('Order', id);
     }
 
-    return order as Order;
+    return order as unknown as Order;
   }
 
   async createOrder(
-    userId: number,
-    data: { items: Array<{ productId: number; quantity: number }> }
+    userId: string,
+    data: { items: Array<{ productId: string; quantity: number }> }
   ): Promise<Order> {
     // Validate products and calculate total
     const productIds = data.items.map((item) => item.productId);
@@ -108,6 +107,7 @@ export class OrderController {
       .insert(orders)
       .values({
         userId,
+        subtotal: total.toFixed(2),
         total: total.toFixed(2),
         status: 'pending',
       })
@@ -129,11 +129,11 @@ export class OrderController {
 
     this.logger.info('Order created', { orderId: order.id, userId, total });
 
-    return order as Order;
+    return order as unknown as Order;
   }
 
   async updateOrderStatus(
-    id: number,
+    id: string,
     status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
   ): Promise<Order> {
     const [order] = await db
@@ -148,10 +148,10 @@ export class OrderController {
 
     this.logger.info('Order status updated', { orderId: id, status });
 
-    return order as Order;
+    return order as unknown as Order;
   }
 
-  async cancelOrder(id: number, userId: number): Promise<void> {
+  async cancelOrder(id: string, userId: string): Promise<void> {
     const order = await this.getOrderById(id, userId);
 
     if (order.status !== 'pending' && order.status !== 'processing') {

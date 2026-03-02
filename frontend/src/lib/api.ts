@@ -24,12 +24,12 @@ api.interceptors.response.use(
 
 // Auth Endpoints
 export const authApi = {
-  signUp: async (data: { email: string; password: string; name?: string }) => {
-    const response = await api.post<ApiResponse<{ user: any; session: any }>>('/auth/sign-up', data);
+  signUp: async (data: { email: string; password: string; name: string }) => {
+    const response = await api.post<ApiResponse<{ user: any; session: any }>>('/auth/sign-up/email', data);
     return response.data;
   },
   signIn: async (data: { email: string; password: string }) => {
-    const response = await api.post<ApiResponse<{ user: any; session: any }>>('/auth/sign-in', data);
+    const response = await api.post<ApiResponse<{ user: any; session: any }>>('/auth/sign-in/email', data);
     return response.data;
   },
   signOut: async () => {
@@ -37,7 +37,7 @@ export const authApi = {
     return response.data;
   },
   getSession: async () => {
-    const response = await api.get<ApiResponse<{ user: any; session: any } | null>>('/auth/session');
+    const response = await api.get<ApiResponse<{ user: any; session: any } | null>>('/auth/get-session');
     return response.data;
   },
 };
