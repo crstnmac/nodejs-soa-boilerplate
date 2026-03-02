@@ -9,9 +9,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@soa/shared-drizzle": "workspace:*",
-    "@soa/shared-types": "workspace:*",
-    "@soa/shared-utils": "workspace:*",
+    "@soa/shared-drizzle": "file:../../shared/drizzle",
+    "@soa/shared-types": "file:../../shared/types",
+    "@soa/shared-utils": "file:../../shared/utils",
     "@types/morgan": "^1.9.10",
     "drizzle-orm": "^0.45.1",
     "express": "^5.2.1",
