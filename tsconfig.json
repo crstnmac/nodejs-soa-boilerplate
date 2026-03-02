@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./shared/types" },
+    { "path": "./shared/utils" },
+    { "path": "./shared/drizzle" },
+    { "path": "./services/user-service" },
+    { "path": "./services/product-service" },
+    { "path": "./services/order-service" },
+    { "path": "./services/admin-service" },
+    { "path": "./gateway" },
+    { "path": "./frontend" }
+  ]
+}

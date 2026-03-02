@@ -12,8 +12,6 @@ COPY tsconfig*.json ./
 COPY vite.config.ts ./
 COPY src ./src
 COPY index.html ./index.html
-COPY postcss.config.js ./
-COPY tailwind.config.js ./
 
 # Install frontend dependencies
 COPY package*.json ./
