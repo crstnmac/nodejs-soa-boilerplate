@@ -10,6 +10,9 @@ Get your SOA application running in under 5 minutes.
 ## Setup
 
 ```bash
+# Install all dependencies (run once)
+npm run setup
+
 # Copy environment template
 cp .env.example .env
 ```
