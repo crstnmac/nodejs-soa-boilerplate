@@ -5,7 +5,6 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "install": "npm install --legacy-peer-deps",
     "install:frontend": "cd frontend && npm install",
     "build": "npm run build:all",
     "build:all": "cd shared/types && npm run build && cd shared/utils && npm run build && cd shared/drizzle && npm run build && cd services/user-service && npm run build && cd services/product-service && npm run build && cd services/order-service && npm run build && cd gateway && npm run build && cd frontend && npm run build",
